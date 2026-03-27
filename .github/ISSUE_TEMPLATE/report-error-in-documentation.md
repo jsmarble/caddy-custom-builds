@@ -3,7 +3,7 @@ name: Report error in documentation
 about: Help improve the instructions of the different Caddy modules
 title: ''
 labels: documentation
-assignees: serfriz
+assignees: ''
 
 ---
 

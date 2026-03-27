@@ -3,7 +3,7 @@ name: Request a custom build
 about: Ask for additional Caddy modules
 title: ''
 labels: enhancement
-assignees: serfriz
+assignees: ''
 
 ---
 
