@@ -3,7 +3,7 @@ name: Request module update
 about: Update the modules of an existing Caddy build
 title: ''
 labels: dependencies
-assignees: serfriz
+assignees: ''
 
 ---
 

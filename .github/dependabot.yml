@@ -5,12 +5,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    assignees:
-      - "serfriz"
   # Check for Docker image updates
   - package-ecosystem: "docker"
-    directory: "/caddy-cloudflare"
+    directory: "/caddy-bunny-ddns"
     schedule:
       interval: "daily"
-    assignees:
-      - "serfriz"
+  - package-ecosystem: "docker"
+    directory: "/caddy-desec-ddns"
+    schedule:
+      interval: "daily"
