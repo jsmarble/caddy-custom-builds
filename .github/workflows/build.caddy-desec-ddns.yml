@@ -95,3 +95,14 @@ jobs:
           tags: ${{ needs.metadata.outputs.tags }}
           labels: ${{ needs.metadata.outputs.labels }}
           platforms: ${{ needs.metadata.outputs.platforms }}
+
+      - name: Write job summary
+        run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/${{ env.DOCKER_NAME }}"
+          VERSION="${{ needs.metadata.outputs.version }}"
+          echo "## ${{ env.DOCKER_NAME }}:${VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```sh' >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${IMAGE}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${IMAGE}:${VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
