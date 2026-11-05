@@ -1,6 +1,10 @@
 # Workflow to build and push a Docker image to GitHub Container Registry
 name: Build caddy-desec-ddns
 
+permissions:
+  contents: read
+  packages: write
+
 # Controls when the action will run
 on:
   workflow_dispatch:  # allows to run the workflow manually from the Actions tab
@@ -50,7 +54,7 @@ jobs:
         id: metadata
         with:
           images: |
-            ghcr.io/${{ github.actor }}/${{ env.DOCKER_NAME }}
+            ghcr.io/${{ github.repository_owner }}/${{ env.DOCKER_NAME }}
           tags: |
             type=semver,pattern={{version}},value=v${{ steps.version.outputs.version }}
             type=semver,pattern={{major}}.{{minor}},value=v${{ steps.version.outputs.version }}
