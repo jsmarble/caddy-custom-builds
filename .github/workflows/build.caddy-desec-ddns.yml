@@ -99,6 +99,8 @@ jobs:
           tags: ${{ needs.metadata.outputs.tags }}
           labels: ${{ needs.metadata.outputs.labels }}
           platforms: ${{ needs.metadata.outputs.platforms }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Write job summary
         run: |
