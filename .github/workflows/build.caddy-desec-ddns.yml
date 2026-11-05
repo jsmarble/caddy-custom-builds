@@ -1,15 +1,11 @@
 # Workflow to build and push a Docker image to GitHub Container Registry
 name: Build caddy-desec-ddns
 
-permissions:
-  contents: read
-  packages: write
-
 # Controls when the action will run
 on:
   workflow_dispatch:  # allows to run the workflow manually from the Actions tab
   schedule:
-    - cron: '23 4 * * 1'  # weekly patched-base rebuild and vulnerability check
+    - cron: '0 0 1 * *'  # runs at 00:00 on the first day of every month
   push:
     branches: main
     paths:
@@ -47,14 +43,14 @@ jobs:
 
       - name: Parse Caddy version
         id: version
-        run: echo "version=$(sed -n 's/^ARG CADDY_VERSION=//p' $DOCKER_NAME/Dockerfile | head -1)" | tee -a $GITHUB_OUTPUT
+        run: echo "version=$(grep -Eo 'caddy:[0-9]+\.[0-9]+\.[0-9]+$' $DOCKER_NAME/Dockerfile | cut -d ':' -f2)" | tee -a $GITHUB_OUTPUT
 
       - name: Generate image metadata with Caddy version
         uses: docker/metadata-action@v6
         id: metadata
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/${{ env.DOCKER_NAME }}
+            ghcr.io/${{ github.actor }}/${{ env.DOCKER_NAME }}
           tags: |
             type=semver,pattern={{version}},value=v${{ steps.version.outputs.version }}
             type=semver,pattern={{major}}.{{minor}},value=v${{ steps.version.outputs.version }}
@@ -99,8 +95,6 @@ jobs:
           tags: ${{ needs.metadata.outputs.tags }}
           labels: ${{ needs.metadata.outputs.labels }}
           platforms: ${{ needs.metadata.outputs.platforms }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Write job summary
         run: |
